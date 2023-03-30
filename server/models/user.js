@@ -33,15 +33,15 @@ const userSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 // virtual field
-// userSchema.virtual('password')
-// .set(function(password){
-//     this._password = password
-//     this.salt = this.makeSalt()
-//     this.hashed_password = this.encryptPassword(password)
-// })
-// .get(function(){
-//     return this._password
-// })
+userSchema.virtual('password')
+.set(function(password){
+    this._password = password
+    this.salt = this.makeSalt()
+    this.hashed_password = this.encryptPassword(password)
+})
+.get(function(){
+    return this._password
+})
 
 
 
