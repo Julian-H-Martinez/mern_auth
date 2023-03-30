@@ -27,8 +27,8 @@ const userSchema = new mongoose.Schema({
         default: 'subscriber'
     },
     resetPasswordLink: {
-        type: String,
-        default: 'subscriber'
+        data: String,
+        default: ''
     }
 }, {timestamps: true});
 
@@ -43,6 +43,27 @@ userSchema.virtual('password')
     return this._password
 })
 
-
-
 // methods
+userSchema.methods = {
+
+    authenticate: function(plainText){
+        return this.encryptPassword(plainText) == this.hashed_password
+    },
+
+    encryptPassword: function(password){
+        if(!password) return ''
+        try{
+            return crypto.createHmac('sha256', this.salt)
+            .update(password)
+            .digest('hex');
+        } catch(err){
+            return ''
+        }
+    },
+
+    makeSalt: function(){
+        return Math.round(new Date().valueOf() * Math.random()) + '';
+    }
+}
+
+module.exports = mongoose.model('User', userSchema);
