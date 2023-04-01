@@ -10,6 +10,21 @@ require('dotenv').config() //   allows us to use environmental variables and exe
 // allows us to access all functionalities express provides
 const app = express();
 
+// connect to db
+// mongoose.connect(process.env.DATABASE, {
+//     useNewUrlParser: true,
+//     findAndModify: true,
+//     useUnifiedTopology: false,
+//     useCreateIndex: true
+// })
+// .then()
+// .catch()
+
+mongoose
+    .connect(process.env.DATABASE, {})
+    .then(() => console.log("DB connected"))
+    .catch((err) => console.log("DB Error => ", err));
+
 // Import Routes
 const authRoutes = require('./routes/auth');
 
@@ -32,7 +47,3 @@ app.listen(port, () => {
     console.log(`API is running on port ${port}!`)
 });
 
-// mongoose
-//     .connect(process.env.DATABASE, {})
-//     .then(() => console.log("DB connected"))
-//     .catch((err) => console.log("DB Error => ", err));
